@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import { Input } from "@/components/ui/input";
 
@@ -12,6 +12,10 @@ export function NumberInput({
   className: string;
 }) {
   const [localValue, setLocalValue] = useState(value.toString());
+
+  useMemo(() => {
+    setLocalValue(value.toString());
+  }, [value]);
 
   return (
     <Input

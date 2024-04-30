@@ -111,7 +111,7 @@ export function PartyEditor() {
                 setCharacterName(index, name);
               }}
               onChangStat={(stat, value) => {
-                setCharacterStat(index, stat, value);
+                setCharacterStat(index, stat as keyof Character, value);
               }}
             />
           );

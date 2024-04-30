@@ -13,7 +13,7 @@ export const useAdventureBuilder = create<{
   setCharacterName: (index: number, name: string) => void;
   setCharacterStat: (
     index: number,
-    stat: Omit<keyof Character, "name">,
+    stat: keyof Character,
     value: number
   ) => void;
   adventure: string | null;
@@ -40,18 +40,17 @@ export const useAdventureBuilder = create<{
     chatCompletion: null,
   },
 
-  setParty: (party) => set({ party }),
+  setParty: (party) => set({ party: [...party] }),
   setCharacterName: (index, name) =>
     set((state) => {
-      const party = state.party.slice();
-      party[index].name = name;
+      const party = { ...state.party };
+      party[index] = { ...party[index], name };
       return { party };
     }),
   setCharacterStat: (index, stat, value) =>
     set((state) => {
-      const party = state.party.slice();
-      // @ts-ignore
-      party[index][stat as keyof Character] = value;
+      const party = { ...state.party };
+      party[index] = { ...party[index], [stat]: value };
       return { party };
     }),
 
@@ -71,7 +70,6 @@ export const useAdventureBuilder = create<{
     const vStart = Date.now();
     const monsters = await getMonsters(party, +difficulty);
     set((state) => ({
-      ...state,
       speeds: {
         ...state.speeds,
         vectorSearch: (Date.now() - vStart) / 1000.0,
@@ -82,7 +80,6 @@ export const useAdventureBuilder = create<{
     const aiStart = Date.now();
     const adventure = await getAdventure(party, monsters, SETTINGS[setting]);
     set((state) => ({
-      ...state,
       speeds: {
         ...state.speeds,
         chatCompletion: (Date.now() - aiStart) / 1000.0,

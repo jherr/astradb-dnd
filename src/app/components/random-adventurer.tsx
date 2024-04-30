@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 
-import { Character } from "../types";
 import { CHARACTER_CLASSES } from "@/constants";
 
 import { useAdventureBuilder } from "./adventure-builder-store";
