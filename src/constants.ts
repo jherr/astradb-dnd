@@ -9,3 +9,18 @@ export const SETTINGS: Record<string, string> = {
   "dragons-lair": "Dragon's Lair",
   "goblin-lair": "Goblin's Lair",
 };
+
+export const CHARACTER_CLASSES = [
+  "Barbarian",
+  "Bard",
+  "Cleric",
+  "Druid",
+  "Fighter",
+  "Monk",
+  "Paladin",
+  "Ranger",
+  "Rogue",
+  "Sorcerer",
+  "Warlock",
+  "Wizard",
+];
