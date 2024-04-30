@@ -1,13 +1,12 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
-export function DifficultySelector({
-  difficulty,
-  setDifficulty,
-}: {
-  difficulty: string;
-  setDifficulty: React.Dispatch<React.SetStateAction<string>>;
-}) {
+import { useAdventureBuilder } from "./adventure-builder-store";
+
+export function DifficultySelector() {
+  const difficulty = useAdventureBuilder((s) => s.difficulty);
+  const setDifficulty = useAdventureBuilder((s) => s.setDifficulty);
+
   return (
     <RadioGroup defaultValue={difficulty} className="flex gap-2">
       <div className="flex items-center space-x-2">

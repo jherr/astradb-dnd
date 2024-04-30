@@ -3,21 +3,20 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { Character } from "../types";
-
 import { getAdventurer } from "../actions/getAdventurer";
+
+import { useAdventureBuilder } from "./adventure-builder-store";
 
 // https://www.dndbeyond.com/characters/120477786 - Lori
 // https://www.dndbeyond.com/characters/120476827 - Jason
 
-export function DnDBeyond({
-  setParty,
-}: {
-  setParty: React.Dispatch<React.SetStateAction<Character[]>>;
-}) {
+export function DnDBeyond() {
   const [url, setUrl] = useState<string>(
     "https://www.dndbeyond.com/characters/120476570"
   );
+
+  const party = useAdventureBuilder((s) => s.party);
+  const setParty = useAdventureBuilder((s) => s.setParty);
 
   return (
     <div className="flex gap-2">
@@ -30,7 +29,7 @@ export function DnDBeyond({
         onClick={async () => {
           const adventurer = await getAdventurer(url);
           if (adventurer) {
-            setParty((party) => [...party, adventurer]);
+            setParty([...party, adventurer]);
           }
         }}
         size="sm"

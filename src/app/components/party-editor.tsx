@@ -6,6 +6,8 @@ import { DECENT_TEAM, GREAT_TEAM, BADASS_TEAM } from "../teams";
 
 import { NumberInput } from "./number-input";
 
+import { useAdventureBuilder } from "./adventure-builder-store";
+
 const CharacterEditor = ({
   character,
   onChangeName,
@@ -47,29 +49,30 @@ const CharacterEditor = ({
   );
 };
 
-export function PartyEditor({
-  party,
-  setParty,
-}: {
-  party: Character[];
-  setParty: React.Dispatch<React.SetStateAction<Character[]>>;
-}) {
+export function PartyEditor() {
+  const party = useAdventureBuilder((s) => s.party);
+  const setParty = useAdventureBuilder((s) => s.setParty);
+  const setCharacterName = useAdventureBuilder((s) => s.setCharacterName);
+  const setCharacterStat = useAdventureBuilder((s) => s.setCharacterStat);
+
   return (
     <>
-      <div className="@container flex-col @lg:flex-row @lg:justify-between @lg:items-center">
-        <h1 className="text-2xl font-bold border-b-gray-400">
-          Your Adventurers
-        </h1>
-        <div className="flex gap-2 mb-5 @lg:mb-0">
-          <Button onClick={() => setParty(DECENT_TEAM)} size="sm">
-            Decent
-          </Button>
-          <Button onClick={() => setParty(GREAT_TEAM)} size="sm">
-            Great
-          </Button>
-          <Button onClick={() => setParty(BADASS_TEAM)} size="sm">
-            Badass
-          </Button>
+      <div className="@container">
+        <div className="flex flex-col @lg:flex-row @lg:justify-between @lg:items-center @lg:mb-5">
+          <h1 className="text-2xl font-bold border-b-gray-400">
+            Your Adventurers
+          </h1>
+          <div className="flex gap-2 mb-5 @lg:mb-0">
+            <Button onClick={() => setParty(DECENT_TEAM)} size="sm">
+              Decent
+            </Button>
+            <Button onClick={() => setParty(GREAT_TEAM)} size="sm">
+              Great
+            </Button>
+            <Button onClick={() => setParty(BADASS_TEAM)} size="sm">
+              Badass
+            </Button>
+          </div>
         </div>
       </div>
       <div className="@container flex flex-col gap-2">
@@ -105,18 +108,10 @@ export function PartyEditor({
               character={character}
               key={character.name}
               onChangeName={(name) => {
-                setParty((party) => {
-                  const newParty = [...party];
-                  newParty[index] = { ...newParty[index], name };
-                  return newParty;
-                });
+                setCharacterName(index, name);
               }}
               onChangStat={(stat, value) => {
-                setParty((party) => {
-                  const newParty = [...party];
-                  newParty[index] = { ...newParty[index], [stat]: value };
-                  return newParty;
-                });
+                setCharacterStat(index, stat, value);
               }}
             />
           );

@@ -2,6 +2,8 @@ import Image from "next/image";
 
 import { SETTINGS } from "@/constants";
 
+import { useAdventureBuilder } from "./adventure-builder-store";
+
 function Setting({
   setting,
   onClick,
@@ -29,19 +31,16 @@ function Setting({
   );
 }
 
-export default function SettingSelector({
-  setting,
-  onSelect,
-}: {
-  setting: string;
-  onSelect: (setting: string) => void;
-}) {
+export default function SettingSelector() {
+  const setting = useAdventureBuilder((s) => s.setting);
+  const setSetting = useAdventureBuilder((s) => s.setSetting);
+
   return (
     <div className="flex gap-2 overflow-x-scroll">
       {Object.keys(SETTINGS).map((key) => (
         <Setting
           setting={key}
-          onClick={() => onSelect(key)}
+          onClick={() => setSetting(key)}
           key={key}
           active={setting === key}
         />

@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Character } from "../types";
 import { CHARACTER_CLASSES } from "@/constants";
 
+import { useAdventureBuilder } from "./adventure-builder-store";
+
 function roll3D6() {
   return (
     Math.floor(Math.random() * 6) +
@@ -12,15 +14,14 @@ function roll3D6() {
   );
 }
 
-export function RandomAdventurer({
-  setParty,
-}: {
-  setParty: React.Dispatch<React.SetStateAction<Character[]>>;
-}) {
+export function RandomAdventurer() {
+  const setParty = useAdventureBuilder((s) => s.setParty);
+  const party = useAdventureBuilder((s) => s.party);
+
   return (
     <Button
       onClick={() => {
-        setParty((party) => [
+        setParty([
           ...party,
           {
             name: CHARACTER_CLASSES[
